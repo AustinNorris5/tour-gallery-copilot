@@ -12,30 +12,31 @@ function App() {
   // State to handle any errors during the fetch process
   const [error, setError] = useState(null);
 
+  // Function to fetch tours data
+  const fetchTours = async () => {
+    setLoading(true); // Set loading to true before starting the fetch
+    try {
+      // Fetch data from the API
+      const response = await fetch('https://course-api.com/react-tours-project');
+      if (!response.ok) {
+        // Throw an error if the response is not successful
+        throw new Error('Failed to fetch tours');
+      }
+      // Parse the JSON response
+      const data = await response.json();
+      setTours(data); // Update the tours state with the fetched data
+      setError(null); // Clear any previous errors
+    } catch (err) {
+      // Handle any errors that occur during the fetch
+      setError(err.message);
+    } finally {
+      // Set loading to false after the fetch is complete
+      setLoading(false);
+    }
+  };
+
   // useEffect to fetch tours data when the component mounts
   useEffect(() => {
-    const fetchTours = async () => {
-      setLoading(true); // Set loading to true before starting the fetch
-      try {
-        // Fetch data from the API
-        const response = await fetch('https://course-api.com/react-tours-project');
-        if (!response.ok) {
-          // Throw an error if the response is not successful
-          throw new Error('Failed to fetch tours');
-        }
-        // Parse the JSON response
-        const data = await response.json();
-        setTours(data); // Update the tours state with the fetched data
-        setError(null); // Clear any previous errors
-      } catch (err) {
-        // Handle any errors that occur during the fetch
-        setError(err.message);
-      } finally {
-        // Set loading to false after the fetch is complete
-        setLoading(false);
-      }
-    };
-
     fetchTours(); // Call the fetch function
   }, []); // Empty dependency array ensures this runs only once when the component mounts
 
@@ -54,24 +55,14 @@ function App() {
     return <h2>Error: {error}</h2>;
   }
 
-  // Render the main content of the app
-  return (
-    <>
-      {/* Header section with logos */}
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  // If no tours are left, show a "Refresh" button
+  if (tours.length === 0) {
+    return (
+      <div className="no-tours">
+        <h2>No Tours Left</h2>
+        <button onClick={fetchTours} className="refresh-btn">
+          Refresh
+        </button>
       </div>
-      <h1>Vite + React</h1>
-
-      {/* Render the Gallery component with tours data */}
-      <Gallery tours={tours} onRemoveTour={handleRemoveTour} />
-    </>
-  );
-}
-
-export default App;
+    );
+  }}
