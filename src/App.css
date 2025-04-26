@@ -1,8 +1,21 @@
+:root {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --secondary-text-color: #b3b3b3;
+  --card-background: #1e1e1e;
+  --button-background: #646cff;
+  --button-hover: #535bf2;
+  --error-color: #ff4d4d;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  min-height: 100vh;
 }
 
 .logo {
@@ -35,8 +48,45 @@
 
 .card {
   padding: 2em;
+  background-color: var(--card-background);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: var(--text-color);
+  margin: 1rem auto;
+  max-width: 600px;
 }
 
-.read-the-docs {
-  color: #888;
+h1, h2, h3 {
+  color: var(--text-color);
+}
+
+p {
+  color: var(--secondary-text-color);
+}
+
+button {
+  background-color: var(--button-background);
+  color: var(--text-color);
+  border: none;
+  padding: 0.8em 1.5em;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 300ms;
+}
+
+button:hover {
+  background-color: var(--button-hover);
+}
+
+.refresh-btn {
+  margin-top: 1rem;
+}
+
+.no-tours {
+  margin-top: 2rem;
+}
+
+h2.error {
+  color: var(--error-color);
 }
