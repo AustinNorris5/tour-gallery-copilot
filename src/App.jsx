@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
+import Gallery from './components/Gallery'; // Import the Gallery component
 
 function App() {
   // State to store the list of tours
@@ -38,6 +39,11 @@ function App() {
     fetchTours(); // Call the fetch function
   }, []); // Empty dependency array ensures this runs only once when the component mounts
 
+  // Function to handle removing a tour
+  const handleRemoveTour = (id) => {
+    setTours(tours.filter((tour) => tour.id !== id)); // Remove the tour with the given id
+  };
+
   // Display a loading message while data is being fetched
   if (loading) {
     return <h2>Loading...</h2>;
@@ -62,23 +68,8 @@ function App() {
       </div>
       <h1>Vite + React</h1>
 
-      {/* Card section to display tours */}
-      <div className="card">
-        <h2>Tours</h2>
-        {/* Map through the tours array and render each tour */}
-        {tours.map((tour) => (
-          <div key={tour.id}>
-            <h3>{tour.name}</h3>
-            <p>{tour.info}</p>
-            <p>Price: ${tour.price}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Footer section */}
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {/* Render the Gallery component with tours data */}
+      <Gallery tours={tours} onRemoveTour={handleRemoveTour} />
     </>
   );
 }
